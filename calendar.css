@@ -1,4 +1,20 @@
 body{margin:0;
      background:#ffd;
      padding:0;
+     text-align:center;
 }
+.red{color:red;
+     font-weight:bold;
+     font-size:30px;
+}
+.blue{color:blue;
+     font-weight:bold;
+     font-size:30px;
+
+}
+.black{color:black;
+     font-weight:bold;
+     font-size:30px;
+
+}
+ul>li{list-style-type:none;}
