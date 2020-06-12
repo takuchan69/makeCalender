@@ -12,7 +12,7 @@ echo 'first step to make calendar';
              <header>
                     <h1>Head Title of Calendar</h1>
              </header>
-             <section class='container'>
+             <section id='container'>
                      <ul>
                          <li class='red'>sun</li>
                          <li class='black'>mon</li>
