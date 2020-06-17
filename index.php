@@ -1,8 +1,23 @@
 <?php
+require_once(__DIR__.'/functions.php');
 echo 'first step to make calendar';
-//target month
-$t= '2020-10';
-$thisMonth = new DateTime($t);
+define('TODAY','today');
+//get target month using try catch
+try{
+  if(!isset($_GET['t']) || !preg_match('/\A\d{4}-\d{2}\z/',$_GET['t'])){
+    throw new Exception();
+  }
+  $thisMonth = new DateTime($_GET['t']);
+}catch(Exception $e){
+  //when null $thisMonth is 'this month'
+  $thisMonth = new DateTime('first day of this month');
+}
+$thisMonthObjct = clone $thisMonth;
+$prev = $thisMonthObjct->modify('-1 month')->format('Y-m');
+var_dump($prev);
+$thisMonthObjct = clone $thisMonth;
+$next = $thisMonthObjct->modify('+1 month')->format('Y-m');
+var_dump($next);
 //get target month as String
 $yearMonth = sprintf($thisMonth->format('F Y'));
 //express prvious and next month as string
@@ -27,7 +42,12 @@ $nextMonth = new DatePeriod(new DateTime('first day of '.$nextYearMonth),new Dat
              </header>
              <section id='container'>
                      <table>
-                         <thead>
+                       <thead>
+                         <td colspan='2' class='blue'><a href='/?t=<?=$prev; ?>'> &laquo;</a></td>
+                         <td colspan='3' class='gray'><a href='/?t=<?=TODAY;?>'>Today</a></td>
+                         <td colspan='2' class='blue'><a href='/?t=<?=$next;?>'> &raquo;</a></td>
+                       </thead>
+                         <tr>
                              <th class='red'>sun</th>
                              <th class='black'>mon</th>
                              <th class='black'>tue</th>
@@ -35,8 +55,9 @@ $nextMonth = new DatePeriod(new DateTime('first day of '.$nextYearMonth),new Dat
                              <th class='black'>thu</th>
                              <th class='black'>fri</th>
                              <th class='blue'>sat</th>
-                        </thead>
+                        </tr>
                         <tbody>
+
                             <tr>
                                 <?php foreach($previousMonth as $day):?>
                                    <td class='gray'><?=sprintf('%d',$day->format('d'));?></td>
@@ -45,7 +66,7 @@ $nextMonth = new DatePeriod(new DateTime('first day of '.$nextYearMonth),new Dat
                                       <?php if($day->format('w') === '6'):?>
                                       <td class='blue'><?=sprintf('%d',$day->format('d'));?></td></tr>
                                     <?php elseif($day->format('w') === '0'):?>
-                                      <td class='red'><?=sprintf('%d',$day->format('d'));?></td>
+                                      <tr><td class='red'><?=sprintf('%d',$day->format('d'));?></td>
                                     <?php else :?>
                                       <td class='black'><?=sprintf('%d',$day->format('d'));?></td>
                                     <?php endif;?>
@@ -55,7 +76,11 @@ $nextMonth = new DatePeriod(new DateTime('first day of '.$nextYearMonth),new Dat
                                 <?php endforeach;?>
                             </tr>
                       </tbody>
+                      <tfoot>
+                          <td colspan='7' class='blue'><?=$yearMonth;?></td>
+                      </tfoot>
                      </table>
+
              </section>
        </body>
 </html>
