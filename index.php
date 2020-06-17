@@ -1,7 +1,7 @@
 <?php
 echo 'first step to make calendar';
 //target month
-$t= '2020-07';
+$t= '2020-10';
 $thisMonth = new DateTime($t);
 //get target month as String
 $yearMonth = sprintf($thisMonth->format('F Y'));
